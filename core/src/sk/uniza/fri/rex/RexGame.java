@@ -18,17 +18,16 @@ public class RexGame extends ApplicationAdapter {
     private SpriteBatch batch;
     private Texture img;
     private ShapeRenderer shapeRenderer;
-    private double yPos = 10;
-    private boolean inJump = false;
-    private boolean rising = true;
-    private int jumpHeight = 150;
     
     private LinkedList<Prekazka> prekazky = new LinkedList<Prekazka>();
     private Random rnd = new Random();
     private BitmapFont font;
+    
+    private Entita hrac;
 
     @Override
     public void create() {
+        hrac = new Hrac();
         font = new BitmapFont();
         batch = new SpriteBatch();
         shapeRenderer = new ShapeRenderer();
@@ -42,31 +41,7 @@ public class RexGame extends ApplicationAdapter {
         Gdx.gl.glClearColor(1, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         
-        //Input spracovanie
-        if (!inJump && Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
-            inJump = true;
-            rising = true;
-            yPos = 10;
-        }
-        
-        if (inJump) {
-            System.out.println("Jump");
-            if (rising) {
-                yPos = (yPos + delta * Math.sqrt(2*(jumpHeight - yPos)) * 40);
-                if (yPos > jumpHeight) {
-                    rising = false;
-                    yPos = jumpHeight-1;
-                }
-            }
-            else {
-                yPos = (yPos - delta * Math.sqrt(2*(jumpHeight - yPos)) * 30);
-                if (yPos < 10) {
-                    inJump = false;
-                    yPos = 10;
-                }
-            }
-            System.out.println("pos " + yPos);
-        }
+        hrac.vykonajPohyb(delta);
         
         //Posun prekazok
         for (Prekazka prekazka : prekazky) {
@@ -88,8 +63,7 @@ public class RexGame extends ApplicationAdapter {
 //        batch.end();
         
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        shapeRenderer.setColor(Color.GREEN);
-        shapeRenderer.rect(10, (float) yPos, 40, 100);
+        hrac.vykresli(shapeRenderer);
         
         //Vykrelsenie prekazok
         for (Prekazka prekazka : prekazky) {
