@@ -26,12 +26,12 @@ public class RexGame extends ApplicationAdapter {
 
     @Override
     public void create() {
-        hrac = new Hrac();
-        prekazky = new ManazerPrekazok();
+        img = new Texture("offline-sprite-2x.png");
+        hrac = new Hrac(img);
+        prekazky = new ManazerPrekazok(img);
         font = new BitmapFont();
         batch = new SpriteBatch();
         shapeRenderer = new ShapeRenderer();
-        img = new Texture("badlogic.jpg");
     }
 
     @Override
@@ -44,14 +44,13 @@ public class RexGame extends ApplicationAdapter {
         hrac.vykonajPohyb(delta);
         prekazky.posunPrekazky(delta);
         
-//        batch.begin();
-//        batch.draw(img, 0, 0);
-//        batch.end();
+        batch.begin();
+        hrac.vykresli(batch);
+        prekazky.vykresli(batch);
+        batch.end();
         
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        hrac.vykresli(shapeRenderer);
-        prekazky.vykresli(shapeRenderer);
-        shapeRenderer.end();
+//        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+//        shapeRenderer.end();
     
         batch.begin();
         font.draw(batch, Gdx.graphics.getFramesPerSecond()+"fps", 10, Gdx.graphics.getHeight() - 20);

@@ -5,6 +5,8 @@
  */
 package sk.uniza.fri.rex;
 
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 /**
@@ -17,12 +19,19 @@ public abstract class Entita {
     private float y;
     private int width;
     private int height;
+    
+    private Sprite sprite;
 
-    public Entita(float x, float y, int width, int height) {
+    public Entita(Sprite sprite, float x, float y, int width, int height) {
+        this.sprite = sprite;
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
+    }
+
+    public void setSprite(Sprite sprite) {
+        this.sprite = sprite;
     }
 
     public float getX() {
@@ -59,7 +68,7 @@ public abstract class Entita {
     
     public abstract void vykonajPohyb(float delta);
     
-    public void vykresli(ShapeRenderer shapeRenderer) {
-        shapeRenderer.rect(getX(), getY(), getWidth(), getHeight());
+    public void vykresli(SpriteBatch spriteBatch) {
+        spriteBatch.draw(sprite, x, y);
     }
 }

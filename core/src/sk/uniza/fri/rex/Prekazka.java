@@ -6,6 +6,9 @@
 package sk.uniza.fri.rex;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 /**
@@ -14,8 +17,8 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
  */
 public class Prekazka extends Entita {
 
-    public Prekazka(int x, int length, boolean big) {
-        super(x, 10, 30*length, big ? 80 : 50);
+    public Prekazka(Texture texture, int x, int length, boolean big) {
+        super(new Sprite(texture, 446, 2, 34, 70), x, 10, 30*length, big ? 80 : 50);
     }
 
     @Override
@@ -24,8 +27,8 @@ public class Prekazka extends Entita {
     }
 
     @Override
-    public void vykresli(ShapeRenderer shapeRenderer) {
-        shapeRenderer.setColor(Color.BLACK);
-        super.vykresli(shapeRenderer);
+    public void vykresli(SpriteBatch spriteBatch) {
+        spriteBatch.setColor(Color.BLACK);
+        super.vykresli(spriteBatch);
     }
 }
