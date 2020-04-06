@@ -12,22 +12,22 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import java.util.LinkedList;
 import java.util.Random;
+import javax.management.MBeanAttributeInfo;
 
 public class RexGame extends ApplicationAdapter {
 
     private SpriteBatch batch;
     private Texture img;
     private ShapeRenderer shapeRenderer;
-    
-    private LinkedList<Prekazka> prekazky = new LinkedList<Prekazka>();
-    private Random rnd = new Random();
     private BitmapFont font;
     
     private Entita hrac;
+    private ManazerPrekazok prekazky;
 
     @Override
     public void create() {
         hrac = new Hrac();
+        prekazky = new ManazerPrekazok();
         font = new BitmapFont();
         batch = new SpriteBatch();
         shapeRenderer = new ShapeRenderer();
@@ -42,21 +42,7 @@ public class RexGame extends ApplicationAdapter {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         
         hrac.vykonajPohyb(delta);
-        
-        //Posun prekazok
-        for (Prekazka prekazka : prekazky) {
-            prekazka.x -= delta * 250;
-        }
-        
-        //odstranenie starych prekazok
-        while (prekazky.size() > 0 && prekazky.getFirst().x < 0) {            
-            prekazky.removeFirst();
-        }
-        
-        //Pridanie novych
-        if (rnd.nextInt() < 10 && (prekazky.size() == 0 || prekazky.getLast().x < 200)) {
-            prekazky.add(new Prekazka(Gdx.graphics.getWidth(), rnd.nextInt(2) + 1, rnd.nextBoolean()));
-        }
+        prekazky.posunPrekazky(delta);
         
 //        batch.begin();
 //        batch.draw(img, 0, 0);
@@ -64,12 +50,7 @@ public class RexGame extends ApplicationAdapter {
         
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         hrac.vykresli(shapeRenderer);
-        
-        //Vykrelsenie prekazok
-        for (Prekazka prekazka : prekazky) {
-            shapeRenderer.setColor(Color.BLACK);
-            shapeRenderer.rect(prekazka.x, 10, prekazka.width, prekazka.height);
-        }
+        prekazky.vykresli(shapeRenderer);
         shapeRenderer.end();
     
         batch.begin();
@@ -81,19 +62,5 @@ public class RexGame extends ApplicationAdapter {
     public void dispose() {
         batch.dispose();
         img.dispose();
-    }
-    
-    public class Prekazka {
-        int x;
-        int width;
-        int height;
-
-        public Prekazka(int x, int length, boolean big) {
-            this.x = x;
-            this.width = 30 * length;
-            this.height = big ? 60 : 30;
-        }
-
-        
     }
 }

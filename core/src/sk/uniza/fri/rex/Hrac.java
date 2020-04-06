@@ -27,7 +27,7 @@ public class Hrac extends Entita {
     @Override
     public void vykresli(ShapeRenderer shapeRenderer) {
         shapeRenderer.setColor(Color.GREEN);
-        shapeRenderer.rect(getX(), getY(), getWidth(), getHeight());
+        super.vykresli(shapeRenderer);
     }
 
     @Override

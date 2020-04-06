@@ -59,5 +59,7 @@ public abstract class Entita {
     
     public abstract void vykonajPohyb(float delta);
     
-    public abstract void vykresli(ShapeRenderer shapeRenderer);
+    public void vykresli(ShapeRenderer shapeRenderer) {
+        shapeRenderer.rect(getX(), getY(), getWidth(), getHeight());
+    }
 }
